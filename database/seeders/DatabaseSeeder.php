@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Store;
+use App\Models\Product;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,8 +19,33 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'role' => 'Admin',
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('123')
         ]);
+
+        User::factory()->create([
+            'role' => 'Seller',
+            'name' => 'Seller',
+            'email' => 'seller@user.com',
+            'password' => Hash::make('123')
+        ]);
+
+        User::factory()->create([
+            'role' => 'Buyer',
+            'name' => 'Buyer',
+            'email' => 'buyer@user.com',
+            'password' => Hash::make('123')
+        ]);
+
+        Store::factory()->create([
+            'user_id' => 2,
+            'store_image' => 'assets/default/store.png',
+            'store_name' => 'Test Store',
+            'address' => 'Jakarta Barat'
+        ]);
+
+        Product::factory(10)->create();
     }
 }
