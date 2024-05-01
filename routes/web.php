@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\seller\ProductController;
 use App\Http\Controllers\seller\StoreController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\buyer\CartController;
 
 route::get('/', [LandingPageController::class, 'index']);
 route::get('/product/{product}', [LandingPageController::class, 'product']);
@@ -15,7 +16,10 @@ route::get('/product/{product}', [LandingPageController::class, 'product']);
 route::get('/dashboard', [DashboardController::class, 'index']);
 
 Route::middleware(['auth', 'isBuyer'])->group(function () {
-
+    route::get('/cart', [CartController::class, 'cart']);
+    route::post('/cart', [CartController::class, 'addCart']);
+    route::delete('/cart/{cart}', [CartController::class, 'destroyCart']);
+    route::put('/cart/{cart}/{qty}', [CartController::class, 'editCart']);
 });
 
 Route::middleware(['auth', 'isSeller'])->group(function () {

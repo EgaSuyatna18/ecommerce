@@ -177,7 +177,7 @@
         </div>
     </div>
     <!-- Footer End -->
-
+    @extends('layouts.partial.toast_lp')
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>

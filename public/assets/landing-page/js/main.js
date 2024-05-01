@@ -83,7 +83,6 @@
         }
     });
 
-
     // Product Quantity
     $('.quantity button').on('click', function () {
         var button = $(this);
@@ -98,6 +97,7 @@
             }
         }
         button.parent().parent().find('input').val(newVal);
+        editCart(newVal, button.attr('data-id'));
     });
     
 })(jQuery);
