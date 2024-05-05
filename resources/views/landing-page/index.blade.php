@@ -6,9 +6,9 @@
             <img class="img-fluid" src="assets/landing-page/img/carousel-1.jpg" alt="Image">
             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                 <div class="p-3" style="max-width: 700px;">
-                    <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
-                    <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                    <h4 class="text-light text-uppercase font-weight-medium mb-3">E-Commerce</h4>
+                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Buy Anything you Need.</h3>
+                    <a href="/" class="btn btn-light py-2 px-3">Shop Now</a>
                 </div>
             </div>
         </div>
@@ -16,9 +16,9 @@
             <img class="img-fluid" src="assets/landing-page/img/carousel-2.jpg" alt="Image">
             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                 <div class="p-3" style="max-width: 700px;">
-                    <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
-                    <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                    <h4 class="text-light text-uppercase font-weight-medium mb-3">E-Commerce</h4>
+                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Buy Anything You Want.</h3>
+                    <a href="/" class="btn btn-light py-2 px-3">Shop Now</a>
                 </div>
             </div>
         </div>
@@ -106,9 +106,9 @@
             <img class="img-fluid w-100" src="{{ ($product->product_image == 'assets/default/product.png') ? '' : 'storage/'}}{{ $product->product_image  }}" alt="errorIMG">
         </div>
         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
+            <h6 class="text-truncate mb-3">{{ $product->product_name }}</h6>
             <div class="d-flex justify-content-center">
-                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
+                <h6>Rp {{ number_format($product->price) }}</h6><h6 class="text-muted ml-2">{{ $product->weight }} Kg</h6>
             </div>
         </div>
         <div class="card-footer d-flex justify-content-between bg-light border">

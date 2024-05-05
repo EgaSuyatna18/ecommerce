@@ -77,10 +77,17 @@
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                <a href="" class="btn border">
-                    <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge">0</span>
-                </a>
+                @if (auth()->check())
+                    <a href="/cart" class="btn border">
+                        <i class="fas fa-shopping-cart text-primary"></i>
+                        <span class="badge">{{ countCart() }}</span>
+                    </a>
+                @else
+                    <a href="/login" class="btn border">
+                        <i class="fas fa-shopping-cart text-primary"></i>
+                        <span class="badge">0</span>
+                    </a>
+                @endif
             </div>
         </div>
     </div>

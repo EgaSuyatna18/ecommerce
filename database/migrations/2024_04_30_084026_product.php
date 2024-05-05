@@ -19,6 +19,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('product_image');
             $table->string('product_name');
+            $table->integer('weight');
             $table->integer('price');
             $table->timestamps();
         });

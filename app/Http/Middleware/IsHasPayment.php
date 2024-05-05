@@ -5,8 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\Payment;
 
-class IsAdmin
+class IsHasPayment
 {
     /**
      * Handle an incoming request.
@@ -15,7 +16,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->user()->role !== 'Admin') return redirect('/dashboard')->withErrors(["You Are Admin!, Can't Access Some Page!"]);
+        if(Payment::where('user_id', $request->user()->id)->where('status', 'pending')->exists()) return redirect('/payment')->withErrors(['You Have Unfinished Payment!']);
         return $next($request);
     }
 }

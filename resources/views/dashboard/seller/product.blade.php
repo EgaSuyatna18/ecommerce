@@ -19,6 +19,7 @@
                   <th>No</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 w-25">Product Image</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product Name</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Weight</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
                   <th class="text-secondary opacity-7"></th>
@@ -30,10 +31,11 @@
                         <td><p class="ms-3">{{ $loop->index + 1 }}</p></td>
                         <td><img class="img-fluid w-25" src="{{ ($product->product_image == 'assets/default/product.png') ? '' : 'storage/'}}{{ $product->product_image  }}" alt="errorIMG"></td>
                         <td>{{ $product->product_name }}</td>
+                        <td>{{ $product->weight }} Kg</td>
                         <td>Rp. {{ number_format($product->price) }}</td>
                         <td>
                           <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"
-                            onclick="setData('{{ $product->id }}', '{{ $product->product_name }}', '{{ $product->price }}')">
+                            onclick="setData('{{ $product->id }}', '{{ $product->product_name }}', '{{ $product->weight }}', '{{ $product->price }}')">
                             <i class="material-icons">edit</i>
                           </button>
                           <form action="/product/{{ $product->id }}" method="post" class="d-inline">
@@ -74,6 +76,10 @@
             <input type="text" name="product_name" class="form-control border border-1 ps-2" required>
           </div>
           <div class="mb-3">
+            <label>Weight</label>
+            <input type="number" name="weight" class="form-control border border-1 ps-2" required>
+          </div>
+          <div class="mb-3">
             <label>Price</label>
             <input type="number" name="price" class="form-control border border-1 ps-2" required>
           </div>
@@ -107,6 +113,10 @@
             <input type="text" name="product_name" id="editProductName" class="form-control border border-1 ps-2" required>
           </div>
           <div class="mb-3">
+            <label>Weight</label>
+            <input type="number" name="weight" id="editWeight" class="form-control border border-1 ps-2" required>
+          </div>
+          <div class="mb-3">
             <label>Price</label>
             <input type="number" name="price" id="editPrice" class="form-control border border-1 ps-2" required>
           </div>
@@ -121,9 +131,10 @@
 </div>
 
 <script>
-  function setData(product_id, product_name, price) {
+  function setData(product_id, product_name, weight, price) {
     editForm.action = '/product/' + product_id;
     editProductName.value = product_name;
+    editWeight.value = weight;
     editPrice.value = price;
   }
 </script>

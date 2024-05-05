@@ -55,6 +55,7 @@ class StoreController extends Controller
     function store_info(Request $request, Store $store) {
         $validated = $request->validate([
             'store_name' => 'required|min:6|max:25',
+            'address_id' => 'required',
             'address' => 'required'
         ]);
 

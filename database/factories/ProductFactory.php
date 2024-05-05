@@ -20,6 +20,7 @@ class ProductFactory extends Factory
             'user_id' => 2,
             'product_image' => 'assets/default/product.png',
             'product_name' => 'product ' . rand(10000, 99999),
+            'weight' => 10,
             'price' => 10000
         ];
     }

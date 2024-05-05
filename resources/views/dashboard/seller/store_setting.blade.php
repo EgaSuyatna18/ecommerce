@@ -14,16 +14,17 @@
             <div class="col-5 offset-1">
                 <form action="/store_info/{{ auth()->user()->id }}" method="post">
                     @csrf
+                    <input type="hidden" name="address_id" id="address_id">
                     <div class="mb-3">
                         <label>Store Name</label>
                         <input type="text" name="store_name" class="form-control border border-1 ps-2" value="{{ $store->store_name }}">
                     </div>
                     <div class="mb-3">
                         <label>Address</label>
-                        <select id="cities" name="address" placeholder="Select a person..." autocomplete="off">
+                        <select id="cities" name="address" placeholder="Select a city..." autocomplete="off" onchange="setCityID(this)" required>
                             <option value="">Select a city...</option>
                             @foreach ($cities as $city)
-                                <option value="{{ $city->city_name }}" {{ ($store->address == $city->city_name) ? 'selected' : '' }}>{{ $city->city_name }}</option>
+                                <option value="{{ $city->city_name }}" {{ ($store->address == $city->city_name) ? 'selected' : '' }} data-addressid="{{ $city->city_id }}">{{ $city->city_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -45,6 +46,10 @@
                 direction: "asc"
             }
         });
+
+        function setCityID(select) {
+            address_id.value = select.options[select.selectedIndex].getAttribute('data-addressid');
+        }
     </script>
 
 @endsection

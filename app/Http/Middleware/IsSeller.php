@@ -15,7 +15,7 @@ class IsSeller
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->user()->role !== 'Seller') return redirect('/dashboard');
+        if($request->user()->role !== 'Seller') return redirect('/dashboard')->withErrors(["You Are Seller!, Can't Access Some Page!"]);
         return $next($request);
     }
 }

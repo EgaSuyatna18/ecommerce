@@ -44,7 +44,8 @@ class DatabaseSeeder extends Seeder
             'user_id' => 2,
             'store_image' => 'assets/default/store.png',
             'store_name' => 'Test Store',
-            'address' => 'Jakarta Barat'
+            'address_id' => '12',
+            'address' => 'Kalimantan Barat'
         ]);
 
         Product::factory(10)->create();

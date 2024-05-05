@@ -15,7 +15,7 @@ class IsBuyer
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->user()->role !== 'Buyer') return redirect('/dashboard');
+        if($request->user()->role !== 'Buyer') return redirect('/dashboard')->withErrors(["You Are Buyer!, Can't Access Some Page!"]);
         return $next($request);
     }
 }

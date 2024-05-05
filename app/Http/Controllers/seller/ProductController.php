@@ -19,6 +19,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'product_image' => 'required|mimes:jpg,jpeg,png|file|max:2048',
             'product_name' => 'required|min:5|max:25',
+            'weight' => 'required|numeric|min:1',
             'price' => 'required|numeric|min:1'
         ]);
 
@@ -41,7 +42,8 @@ class ProductController extends Controller
     function productUpdate(Request $request, Product $product) {
         $rules = [
             'product_name' => 'required|min:5|max:25',
-            'price' => 'required|numeric|min:1',
+            'weight' => 'required|numeric|min:1',
+            'price' => 'required|numeric|min:1'
         ];
 
         if($request->file('product_image')) {
