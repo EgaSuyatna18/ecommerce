@@ -110,7 +110,11 @@ class PaymentController extends Controller
 
         $token = \Midtrans\Snap::getSnapToken($params);
 
-        $payment->update(['midtrans_token' => $token]);
+        $payment->update([
+            'midtrans_token' => $token,
+            'address_id' => $request->input('destination'),
+            'address' => $request->input('address')
+        ]);
 
         return response()->json(['token' => $token]);
     }
@@ -121,5 +125,17 @@ class PaymentController extends Controller
         if($hashed == $request->signature_key) {
             Payment::where('id', $request->order_id)->update(['status' => 'finished']);
         }
+    }
+
+    function transactionHistory() {
+        $title = 'My Transaction History';
+        $payments = Payment::where('user_id', auth()->user()->id)->where('status', 'finished')->paginate(5);
+        return view('dashboard.buyer.transaction-history', compact('title', 'payments'));
+    }
+
+    function transactionHistoryDetail($payment_id) {
+        $title = 'My Transaction History Detail';
+        $paymentDetail = PaymentDetail::with('product')->where('payment_id', $payment_id)->paginate(5);
+        return view('dashboard.buyer.transaction-history-detail', compact('title', 'paymentDetail'));
     }
 }

@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             'store_image' => 'assets/default/store.png',
             'store_name' => 'Test Store',
             'address_id' => '12',
-            'address' => 'Kalimantan Barat'
+            'address' => 'Agam'
         ]);
 
         Product::factory(10)->create();

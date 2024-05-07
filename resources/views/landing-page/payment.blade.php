@@ -36,11 +36,11 @@
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label>Full Name</label>
-                                <input class="form-control" id="full_name" type="text" required>
+                                <input class="form-control" value="{{ auth()->user()->name }}" id="full_name" type="text" required>
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>E-mail</label>
-                                <input class="form-control" id="email" type="email" required>
+                                <input class="form-control" value="{{ auth()->user()->email }}" id="email" type="email" required>
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>Address</label>
@@ -231,6 +231,8 @@
                     return;
                 }
 
+                let address = cities.options[cities.selectedIndex].text;
+
                 fetch('/get_midtrans_token', {
                     method: 'POST',
                     headers: {
@@ -241,6 +243,7 @@
                         full_name: full_name.value,
                         email: email.value,
                         destination: cities.value,
+                        address: address,
                         courier: selectedCourier.getAttribute('id'),
                         method: selectedMethod.getAttribute('id') 
                     })

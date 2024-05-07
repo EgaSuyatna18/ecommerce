@@ -17,6 +17,7 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->string('address_id')->nullable();
             $table->string('address')->nullable();
             $table->string('midtrans_token')->nullable();
             $table->enum('status', ['pending', 'finished']);

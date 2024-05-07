@@ -8,7 +8,7 @@
                 <div class="p-3" style="max-width: 700px;">
                     <h4 class="text-light text-uppercase font-weight-medium mb-3">E-Commerce</h4>
                     <h3 class="display-4 text-white font-weight-semi-bold mb-4">Buy Anything you Need.</h3>
-                    <a href="/" class="btn btn-light py-2 px-3">Shop Now</a>
+                    <a href="/products" class="btn btn-light py-2 px-3">Shop Now</a>
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
                 <div class="p-3" style="max-width: 700px;">
                     <h4 class="text-light text-uppercase font-weight-medium mb-3">E-Commerce</h4>
                     <h3 class="display-4 text-white font-weight-semi-bold mb-4">Buy Anything You Want.</h3>
-                    <a href="/" class="btn btn-light py-2 px-3">Shop Now</a>
+                    <a href="/products" class="btn btn-light py-2 px-3">Shop Now</a>
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
 <div class="col-lg-4 col-md-6 pb-1">
     <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
         <p class="text-right">15 Products</p>
-        <a href="" class="cat-img position-relative overflow-hidden mb-3">
+        <a href="/store/{{ $seller->id }}" class="cat-img position-relative overflow-hidden mb-3">
             <img class="img-fluid" src="{{ ($seller->store->store_image == 'assets/default/store.png') ? '' : 'storage/'}}{{ $seller->store->store_image  }}" alt="errorIMG">
         </a>
         <h5 class="font-weight-semi-bold m-0">{{ $seller->store->store_name }}</h5>

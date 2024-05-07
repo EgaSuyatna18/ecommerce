@@ -13,6 +13,9 @@ use App\Http\Controllers\buyer\PaymentController;
 
 route::get('/', [LandingPageController::class, 'index']);
 route::get('/product/{product}', [LandingPageController::class, 'product']);
+route::get('/store/{seller}', [LandingPageController::class, 'store']);
+route::get('/products', [LandingPageController::class, 'products']);
+route::post('/products', [LandingPageController::class, 'productSearch']);
 
 route::get('/dashboard', [DashboardController::class, 'index']);
 
@@ -31,6 +34,8 @@ Route::middleware(['auth', 'isBuyer'])->group(function () {
     Route::get('/payment', [PaymentController::class, 'payment'])->middleware('isNotHasPayment');
     Route::post('/get_shipping/{destination}/{courier}', [PaymentController::class, 'getShipping']);
     Route::delete('/payment', [PaymentController::class, 'paymentDestroy']);
+    Route::get('/transaction_history', [PaymentController::class, 'transactionHistory']);
+    Route::get('/transaction_history_detail/{payment_id}', [PaymentController::class, 'transactionHistoryDetail']);
 });
 
 Route::middleware(['auth', 'isSeller'])->group(function () {
