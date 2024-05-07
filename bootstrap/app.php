@@ -16,6 +16,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'isSeller' => \App\Http\Middleware\IsSeller::class,
             'isBuyer' => \App\Http\Middleware\IsBuyer::class,
             'isHasPayment' => \App\Http\Middleware\IsHasPayment::class,
+            'isNotHasPayment' => \App\Http\Middleware\IsNotHasPayment::class,
+        ]);
+
+        $middleware->validateCsrfTokens(except: [
+            '/webhook_midtrans',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

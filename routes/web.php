@@ -16,6 +16,8 @@ route::get('/product/{product}', [LandingPageController::class, 'product']);
 
 route::get('/dashboard', [DashboardController::class, 'index']);
 
+route::post('/webhook_midtrans', [PaymentController::class, 'webhookMidtrans']);
+
 Route::middleware(['auth', 'isBuyer'])->group(function () {
     Route::middleware(['auth', 'isHasPayment'])->group(function () {
         Route::get('/cart', [CartController::class, 'cart']);
@@ -23,9 +25,10 @@ Route::middleware(['auth', 'isBuyer'])->group(function () {
         Route::delete('/cart/{cart}', [CartController::class, 'destroyCart']);
         Route::put('/cart/{cart}/{qty}', [CartController::class, 'editCart']);
     }); 
-
+    
     Route::post('/payment', [PaymentController::class, 'paymentStore']);
-    Route::get('/payment', [PaymentController::class, 'payment']);
+    Route::post('/get_midtrans_token', [PaymentController::class, 'getMidtransToken']);
+    Route::get('/payment', [PaymentController::class, 'payment'])->middleware('isNotHasPayment');
     Route::post('/get_shipping/{destination}/{courier}', [PaymentController::class, 'getShipping']);
     Route::delete('/payment', [PaymentController::class, 'paymentDestroy']);
 });
