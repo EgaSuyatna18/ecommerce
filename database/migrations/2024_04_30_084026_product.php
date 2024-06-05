@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('product_name');
             $table->integer('weight');
             $table->integer('price');
+            $table->text('description');
             $table->timestamps();
         });
     }

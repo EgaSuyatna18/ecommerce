@@ -1,17 +1,17 @@
 @extends('layouts.landing-page.master')
 @section('content')
-    <script type="text/javascript"
+    {{-- <script type="text/javascript"
     src="https://app.sandbox.midtrans.com/snap/snap.js"
-    data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+    data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script> --}}
 
-    @if (isset($payment->midtrans_token))
+    {{-- @if (isset($payment->midtrans_token))
         <div id="snap-container text-center"></div>
         <script>
             window.snap.embed('{{ $payment->midtrans_token }}', {
                 embedId: 'snap-container'
             });
         </script>
-    @else
+    @else --}}
         <link rel="stylesheet" href="assets/tomselect\tom-select.bootstrap5.min.css">
         <!-- Page Header Start -->
         <div class="container-fluid bg-secondary mb-5">
@@ -122,7 +122,7 @@
                             <h4 class="font-weight-semi-bold m-0">Payment</h4>
                         </div>
                         <div class="card-footer border-secondary bg-transparent">
-                            <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" id="pay-button">Place Order</button>
+                            <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" id="pay-button" type="button" data-toggle="modal" data-target="#staticBackdrop">Place Order</button>
                             <form action="/payment" method="post">
                                 @csrf
                                 @method('delete')
@@ -134,6 +134,48 @@
             </div>
         </div>
         <!-- Checkout End -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <h3 class="text-center" id="totalModal"></h3>
+                    <h3 class="text-center" id="destinationModal"></h3>
+                    <form action="/payment_placing/{{ $payment->id }}" method="post" id="paymentForm" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="address_id" id="addressIDModal">
+                        <input type="hidden" name="address" id="addressModal">
+                        <div class="mb-3">
+                            <select name="method" class="form-control" onchange="setDestination(this.value)" required>
+                                <option value="">-- Choose Payment Method --</option>
+                                <option>BCA</option>
+                                <option>BRI</option>
+                                <option>Mandiri</option>
+                                <option>Dana</option>
+                                <option>OVO</option>
+                                <option>GoPay</option>
+                                <option>COD</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" id="transferReceipt">
+                            
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" form="paymentForm" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            </div>
+        </div>
 
         <script src="assets/tomselect/tom-select.complete.min.js"></script>
 
@@ -203,6 +245,7 @@
                 shippingTag.innerHTML = 'Rp. ' + shipping.toLocaleString('id');
                 total += shipping;
                 totalTag.innerHTML = 'Rp. ' + total.toLocaleString('id');
+                totalModal.innerHTML = 'Total: Rp. ' + total.toLocaleString('id');
             }
 
             function refreshShipping() {
@@ -213,57 +256,83 @@
                 tiki.checked = false;
             }
 
+            function setDestination(value) {
+                console.log(value);
+                let destination = '';
+                transferReceipt.innerHTML = '<label>Transfer Receipt</label>    <input type="file" name="transfer_receipt" class="form-control" required>';
+                if(value == 'BCA') {
+                    destination = {{ config('app.destination.bca') }};
+                }else if(value == 'BRI') {
+                    destination = {{ config('app.destination.bri') }};
+                }else if(value == 'Mandiri') {
+                    destination = {{ config('app.destination.mandiri') }};
+                }else if(value == 'Dana') {
+                    destination = {{ config('app.destination.dana') }};
+                }else if(value == 'OVO') {
+                    destination = {{ config('app.destination.ovo') }};
+                }else if(value == 'GoPay') {
+                    destination = {{ config('app.destination.gopay') }};
+                }else if(value == 'COD') {
+                    transferReceipt.innerHTML = '';
+                    destination = '-';
+                }
+
+                destinationModal.innerHTML = 'Destination Account: ' + destination;
+            }
+
             var payButton = document.getElementById('pay-button');
-            payButton.addEventListener('click', function() {
+            payButton.addEventListener('click', function(evt) {
                 const selectedCourier = document.querySelector('input[name="courier"]:checked');
                 const selectedMethod = document.querySelector('input[name="method"]:checked');
                 if(full_name.value == '') {
                     alert('Please Enter Full Name!');
-                    return;
+                    evt.stopPropagation();
                 }else if(email.value == '') {
                     alert('Please Enter Email!');
-                    return;
+                    evt.stopPropagation();
                 }else if(selectedCourier == null) {
                     alert('Please Choose Courier!');
-                    return;
+                    evt.stopPropagation();
                 }else if(selectedMethod == null) {
                     alert('Please Choose Sending Method!')
-                    return;
+                    evt.stopPropagation();
                 }
 
                 let address = cities.options[cities.selectedIndex].text;
+                addressModal.value = address;
+                addressIDModal.value = cities.value;
 
-                fetch('/get_midtrans_token', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        full_name: full_name.value,
-                        email: email.value,
-                        destination: cities.value,
-                        address: address,
-                        courier: selectedCourier.getAttribute('id'),
-                        method: selectedMethod.getAttribute('id') 
-                    })
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Request Failed!');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data);
-                        window.snap.pay(data.token);
-                    })
-                    .catch(error => {
-                        console.error('Error Occured:', error);
-                    });
+                // fetch('/get_midtrans_token', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                //     },
+                //     body: JSON.stringify({
+                //         full_name: full_name.value,
+                //         email: email.value,
+                //         destination: cities.value,
+                //         address: address,
+                //         courier: selectedCourier.getAttribute('id'),
+                //         method: selectedMethod.getAttribute('id') 
+                //     })
+                // })
+                //     .then(response => {
+                //         if (!response.ok) {
+                //             throw new Error('Request Failed!');
+                //         }
+                //         return response.json();
+                //     })
+                //     .then(data => {
+                //         console.log(data);
+                //         window.snap.pay(data.token);
+                //     })
+                //     .catch(error => {
+                //         console.error('Error Occured:', error);
+                //     });
             });
         </script>
-    @endif
+    {{-- @endif --}}
 
     
 @endsection

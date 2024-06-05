@@ -19,6 +19,7 @@
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product Name</th>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Weight</th>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
               <th class="text-secondary opacity-7"></th>
             </tr>
@@ -31,9 +32,10 @@
                     <td>{{ $product->product_name }}</td>
                     <td>{{ $product->weight }} Kg</td>
                     <td>Rp. {{ number_format($product->price) }}</td>
+                    <td style="display: block; width: 300px !important; overflow: auto;">{{ $product->description }}</td>
                     <td>
                       <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal"
-                        onclick="setData('{{ $product->id }}', '{{ $product->product_name }}', '{{ $product->weight }}', '{{ $product->price }}')">
+                        onclick="setData('{{ $product->id }}', '{{ $product->product_name }}', '{{ $product->weight }}', '{{ $product->price }}', '{{ $product->description }}')">
                         <i class="material-icons">edit</i>
                       </button>
                       <form action="/product/{{ $product->id }}" method="post" class="d-inline">
@@ -79,6 +81,10 @@
             <label>Price</label>
             <input type="number" name="price" class="form-control border border-1 ps-2" required>
           </div>
+          <div class="mb-3">
+            <label>Description</label>
+            <textarea name="description" class="form-control border border-1 ps-2"></textarea>
+          </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -116,6 +122,10 @@
             <label>Price</label>
             <input type="number" name="price" id="editPrice" class="form-control border border-1 ps-2" required>
           </div>
+          <div class="mb-3">
+            <label>Description</label>
+            <textarea name="description" id="editDescription" class="form-control border border-1 ps-2"></textarea>
+          </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -127,11 +137,12 @@
 </div>
 
 <script>
-  function setData(product_id, product_name, weight, price) {
+  function setData(product_id, product_name, weight, price, description) {
     editForm.action = '/product/' + product_id;
     editProductName.value = product_name;
     editWeight.value = weight;
     editPrice.value = price;
+    editDescription.value = description;
   }
 </script>
 

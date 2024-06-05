@@ -44,6 +44,7 @@
             <h3 class="font-weight-semi-bold">{{ $product->product_name }}</h3>
             <h3 class="font-weight-semi-bold mb-4">Rp. {{ number_format($product->price) }}</h3>
             <h3 class="font-weight-semi-bold mb-4">{{ $product->weight }} Kg</h3>
+            <p>{{ $product->description }}</p>
             <div class="d-flex align-items-center mb-4 pt-2">
                 <div class="input-group quantity mr-3" style="width: 130px;">
                     <div class="input-group-btn">

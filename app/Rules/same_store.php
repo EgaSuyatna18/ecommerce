@@ -16,9 +16,9 @@ class same_store implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $sellerID = Cart::first()->product->user->id;
+        $sellerID = Cart::first();
         $newSellerID = Product::with('user')->where('id', $value)->first()->user->id;
-        if($sellerID != $newSellerID) {
+        if(isset($sellerID) && $sellerID->product->user->id != $newSellerID) {
             $fail('Place orders one by one store');
         }
     }

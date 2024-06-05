@@ -30,6 +30,7 @@ Route::middleware(['auth', 'isBuyer'])->group(function () {
     }); 
     
     Route::post('/payment', [PaymentController::class, 'paymentStore']);
+    Route::post('/payment_placing/{payment}', [PaymentController::class, 'paymentPlacing']);
     Route::post('/get_midtrans_token', [PaymentController::class, 'getMidtransToken']);
     Route::get('/payment', [PaymentController::class, 'payment'])->middleware('isNotHasPayment');
     Route::post('/get_shipping/{destination}/{courier}', [PaymentController::class, 'getShipping']);

@@ -123,4 +123,14 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'destination' => [
+        'bca' => env('PAYMENT_BCA', '123'),
+        'bri' => env('PAYMENT_BRI', '123'),
+        'mandiri' => env('PAYMENT_MANDIRI', '123'),
+        'dana' => env('PAYMENT_DANA', '123'),
+        'ovo' => env('PAYMENT_OVO', '123'),
+        'gopay' => env('PAYMENT_GOPAY', '123'),
+        'cod' => env('PAYMENT_COD', '123'),
+    ],
+
 ];

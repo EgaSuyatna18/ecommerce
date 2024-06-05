@@ -20,7 +20,8 @@ class ProductController extends Controller
             'product_image' => 'required|mimes:jpg,jpeg,png|file|max:2048',
             'product_name' => 'required|min:5|max:25',
             'weight' => 'required|numeric|min:1',
-            'price' => 'required|numeric|min:1'
+            'price' => 'required|numeric|min:1',
+            'description' => 'required|min:1|max:60000',
         ]);
 
         $validated['product_image'] = $request->file('product_image')->store('product-image');
@@ -43,7 +44,8 @@ class ProductController extends Controller
         $rules = [
             'product_name' => 'required|min:5|max:25',
             'weight' => 'required|numeric|min:1',
-            'price' => 'required|numeric|min:1'
+            'price' => 'required|numeric|min:1',
+            'description' => 'required|min:1|max:60000',
         ];
 
         if($request->file('product_image')) {

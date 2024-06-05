@@ -19,7 +19,8 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('address_id')->nullable();
             $table->string('address')->nullable();
-            $table->string('midtrans_token')->nullable();
+            $table->enum('method', ['BCA', 'BRI', 'Mandiri', 'Dana', 'OVO', 'GoPay', 'COD'])->nullable();
+            $table->string('transfer_receipt')->nullable();
             $table->enum('status', ['pending', 'finished']);
             $table->timestamps();
         });
