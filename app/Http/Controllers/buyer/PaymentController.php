@@ -40,6 +40,15 @@ class PaymentController extends Controller
         $title = 'Payment';
         $payment = Payment::with('payment_detail.product')->where('user_id', auth()->user()->id)->where('status', 'pending')->first();
         $cities = json_decode(self::getAllCity()->body())->rajaongkir->results;
+        if($payment->midtrans_token) {
+            $paymentStatus = self::getPaymentStatus($payment->id);
+            if($paymentStatus && $paymentStatus == 'expire') {
+                $payment->delete();
+                return redirect('/')->withErrors(['error' => 'Transaction expired and has been deleted.']);
+            }else if(!$paymentStatus) {
+                return view('landing-page.payment-exists', ['midtrans_token' => $payment->midtrans_token]);
+            }
+        }
 
         return view('landing-page.payment', compact('title', 'payment', 'cities'));
     }
@@ -137,5 +146,19 @@ class PaymentController extends Controller
         $title = 'My Transaction History Detail';
         $paymentDetail = PaymentDetail::with('product')->where('payment_id', $payment_id)->paginate(5);
         return view('dashboard.buyer.transaction-history-detail', compact('title', 'paymentDetail'));
+    }
+
+    function getPaymentStatus($order_id) {
+        $response = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Basic ' . base64_encode(env('MIDTRANS_SERVER_KEY') . ':'),
+        ])->get("https://api.sandbox.midtrans.com/v2/$order_id/status");
+
+        if ($response->json()['status_code'] == '404') {
+            return false;
+        } else {
+            return $response->json()['transaction_status'];
+        }
     }
 }

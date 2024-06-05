@@ -15,7 +15,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->user()->role !== 'Admin') return redirect('/dashboard')->withErrors(["You Are Admin!, Can't Access Some Page!"]);
+        if($request->user()->role !== 'Admin') return redirect('/dashboard')->withErrors(["You Aren't Admin!, Can't Access Some Page!"]);
         return $next($request);
     }
 }

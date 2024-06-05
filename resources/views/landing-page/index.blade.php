@@ -3,7 +3,7 @@
 <div id="header-carousel" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active" style="height: 410px;">
-            <img class="img-fluid" src="assets/landing-page/img/carousel-1.jpg" alt="Image">
+            <img class="img-fluid" src="/assets/landing-page/img/carousel-1.jpg" alt="Image">
             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                 <div class="p-3" style="max-width: 700px;">
                     <h4 class="text-light text-uppercase font-weight-medium mb-3">E-Commerce</h4>
@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="carousel-item" style="height: 410px;">
-            <img class="img-fluid" src="assets/landing-page/img/carousel-2.jpg" alt="Image">
+            <img class="img-fluid" src="/assets/landing-page/img/carousel-2.jpg" alt="Image">
             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                 <div class="p-3" style="max-width: 700px;">
                     <h4 class="text-light text-uppercase font-weight-medium mb-3">E-Commerce</h4>
@@ -81,7 +81,7 @@
     <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
         <p class="text-right">15 Products</p>
         <a href="/store/{{ $seller->id }}" class="cat-img position-relative overflow-hidden mb-3">
-            <img class="img-fluid" src="{{ ($seller->store->store_image == 'assets/default/store.png') ? '' : 'storage/'}}{{ $seller->store->store_image  }}" alt="errorIMG">
+            <img class="img-fluid" src="{{ ($seller->store->store_image == 'assets/default/store.png') ? '' : '/storage/'}}{{ $seller->store->store_image  }}" alt="errorIMG">
         </a>
         <h5 class="font-weight-semi-bold m-0">{{ $seller->store->store_name }}</h5>
     </div>
@@ -103,7 +103,7 @@
 <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
     <div class="card product-item border-0 mb-4">
         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-            <img class="img-fluid w-100" src="{{ ($product->product_image == 'assets/default/product.png') ? '' : 'storage/'}}{{ $product->product_image  }}" alt="errorIMG">
+            <img class="img-fluid w-100" src="{{ ($product->product_image == 'assets/default/product.png') ? '' : '/storage/'}}{{ $product->product_image  }}" alt="errorIMG">
         </div>
         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
             <h6 class="text-truncate mb-3">{{ $product->product_name }}</h6>

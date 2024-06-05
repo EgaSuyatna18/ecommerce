@@ -10,6 +10,9 @@ use App\Models\Product;
 class DashboardController extends Controller
 {
     function index() {
+
+        if(auth()->user()->role == 'Seller' && !auth()->user()->store) return redirect('/store_setting')->with('success', 'Successfully registered, please enter store detail.');
+
         $title = 'Dashboard | ' . strtoupper(auth()->user()->role);
         $admin = User::where('role', 'Admin')->count();
         $seller = User::where('role', 'Seller')->count();

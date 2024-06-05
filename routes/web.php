@@ -76,4 +76,5 @@ Route::get('/logout', function (Request $request) {
     return redirect('/');
 });
 
+route::get('/test/{order_id}', [PaymentController::class, 'getPaymentStatus']);
 

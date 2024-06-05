@@ -27,7 +27,7 @@
             @foreach ($products as $product)
                 <tr>
                     <td><p class="ms-3">{{ $loop->index + 1 }}</p></td>
-                    <td><img class="img-fluid w-25" src="{{ ($product->product_image == 'assets/default/product.png') ? '' : 'storage/'}}{{ $product->product_image  }}" alt="errorIMG"></td>
+                    <td><img class="img-fluid w-25" src="{{ ($product->product_image == 'assets/default/product.png') ? '/' : '/storage/'}}{{ $product->product_image  }}" alt="errorIMG"></td>
                     <td>{{ $product->product_name }}</td>
                     <td>{{ $product->weight }} Kg</td>
                     <td>Rp. {{ number_format($product->price) }}</td>

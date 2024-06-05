@@ -135,7 +135,7 @@
         </div>
         <!-- Checkout End -->
 
-        <script src="assets/tomselect\tom-select.complete.min.js"></script>
+        <script src="assets/tomselect/tom-select.complete.min.js"></script>
 
         <script>
             new TomSelect("#cities",{

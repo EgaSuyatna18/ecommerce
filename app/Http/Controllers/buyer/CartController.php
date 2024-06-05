@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Rules\not_at_cart;
+use App\Rules\same_store;
 
 class CartController extends Controller
 {
@@ -18,7 +19,7 @@ class CartController extends Controller
     function addCart(Request $request) {
         $validated = $request->validate([
             'qty' => 'required|numeric|min:1',
-            'product_id' => ['required', new not_at_cart]
+            'product_id' => ['required', new not_at_cart, new same_store]
         ]);
 
         $validated['user_id'] = auth()->user()->id;
