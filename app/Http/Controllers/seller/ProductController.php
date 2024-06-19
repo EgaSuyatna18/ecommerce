@@ -5,6 +5,7 @@ namespace App\Http\Controllers\seller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Payment;
 use Storage;
 
 class ProductController extends Controller
@@ -21,6 +22,7 @@ class ProductController extends Controller
             'product_name' => 'required|min:5|max:25',
             'weight' => 'required|numeric|min:1',
             'price' => 'required|numeric|min:1',
+            'stock' => 'required|numeric|min:1',
             'description' => 'required|min:1|max:60000',
         ]);
 
@@ -45,6 +47,7 @@ class ProductController extends Controller
             'product_name' => 'required|min:5|max:25',
             'weight' => 'required|numeric|min:1',
             'price' => 'required|numeric|min:1',
+            'stock' => 'required|numeric|min:1',
             'description' => 'required|min:1|max:60000',
         ];
 
@@ -62,5 +65,21 @@ class ProductController extends Controller
         $product->update($validated);
 
         return redirect('/product')->with('success', 'Product updated successfully.');
+    }
+
+    function ordered() {
+        $title = 'Ordered Report';
+        $orders = Payment::with(['payment_detail.product', 'user'])
+                            ->whereHas('payment_detail.product', function($query) {
+                                $query->where('user_id', auth()->user()->id);
+                            })
+                            ->paginate(10);
+        return view('dashboard.seller.orders', compact('title', 'orders'));
+    }
+
+    function orderedDetail(Payment $order) {
+        $title = 'Ordered Detail Report';
+        $order->with(['payment_detail.product'])->get();
+        return view('dashboard.seller.order_detail', compact('title', 'order'));
     }
 }

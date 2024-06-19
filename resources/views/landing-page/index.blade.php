@@ -107,8 +107,10 @@
         </div>
         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
             <h6 class="text-truncate mb-3">{{ $product->product_name }}</h6>
-            <div class="d-flex justify-content-center">
-                <h6>Rp {{ number_format($product->price) }}</h6><h6 class="text-muted ml-2">{{ $product->weight }} Kg</h6>
+            <div class="text-center">
+                <h6>Rp {{ number_format($product->price) }}</h6>
+                <h6 class="text-muted ml-2">{{ $product->weight }} Kg</h6>
+                <h6>Stock: {{ $product->stock }}</h6>
             </div>
         </div>
         <div class="card-footer d-flex justify-content-between bg-light border">

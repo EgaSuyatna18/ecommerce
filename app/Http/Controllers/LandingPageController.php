@@ -11,7 +11,7 @@ class LandingPageController extends Controller
     function index() {
         $title = 'E-Commerce | Index';
         $sellers = User::with('store')->has('store')->whereHas('store', function($query) { $query->whereNotNull('address_id'); })->where('role', 'Seller')->inRandomOrder()->limit(6)->get();
-        $products = Product::with('user.store')->has('user.store')->whereHas('user.store', function($query) { $query->whereNotNull('address_id'); })->inRandomOrder()->limit(8)->get();
+        $products = Product::with('user.store')->has('user.store')->whereHas('user.store', function($query) { $query->whereNotNull('address_id'); })->where('stock', '>', 0)->inRandomOrder()->limit(8)->get();
         return view('landing-page.index', compact('title', 'sellers', 'products'));
     }
 
@@ -28,13 +28,13 @@ class LandingPageController extends Controller
             return redirect('/')->withErrors(['error' => "Seller doesn't have address!"]);
         }
         $countProduct = $seller->product->count();
-        $seller->setRelation('product', $seller->product()->paginate(9));
+        $seller->setRelation('product', $seller->product()->where('stock', '>', 0)->paginate(9));
         return view('landing-page.store', compact('title', 'seller', 'countProduct'));
     }
 
     function products() {
         $title = 'E-Commerce | Products';
-        $products = Product::with('user.store')->has('user.store')->whereHas('user.store', function($query) { $query->whereNotNull('address_id'); })->paginate(9);
+        $products = Product::with('user.store')->has('user.store')->whereHas('user.store', function($query) { $query->whereNotNull('address_id'); })->where('stock', '>', 0)->paginate(9);
         return view('landing-page.products', compact('title', 'products'));
     }
 
@@ -43,7 +43,7 @@ class LandingPageController extends Controller
         $products = Product::with('user.store')->has('user.store')->whereHas('user.store', function($query) { $query->whereNotNull('address_id'); })->whereAny([
             'product_name',
             'price',
-        ], 'LIKE', '%'.$request->key.'%')->paginate(9);
+        ], 'LIKE', '%'.$request->key.'%')->where('stock', '>', 0)->paginate(9);
         return view('landing-page.products', compact('title', 'products'));
     }
 }

@@ -48,6 +48,9 @@ Route::middleware(['auth', 'isSeller'])->group(function () {
     Route::post('/product', [ProductController::class, 'productStore']);
     Route::delete('/product/{product}', [ProductController::class, 'productDestroy']);
     Route::put('/product/{product}', [ProductController::class, 'productUpdate']);
+
+    Route::get('/ordered', [ProductController::class, 'ordered']);
+    Route::get('/ordered/{order}/detail', [ProductController::class, 'orderedDetail']);
 });
 
 Route::middleware(['auth', 'isAdmin'])->group(function () {

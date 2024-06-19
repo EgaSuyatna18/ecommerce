@@ -35,12 +35,23 @@ class CartController extends Controller
     }
 
     function editCart(Request $request, Cart $cart, $qty) {
-        $cart->update([
-            'qty' => $qty
-        ]);
-        return response()->json([
-            'message' => 'Success',
-            'status' => 200,
-        ]);
+        $cart->with('product');
+        if($cart->product->stock < $qty) {
+            $response = response()->json([
+                'message' => 'Failed',
+                'status' => 400,
+                'max' => $cart->product->stock
+            ]);
+        }else {
+            $response = response()->json([
+                'message' => 'Success',
+                'status' => 200,
+            ]);
+
+            $cart->update([
+                'qty' => $qty
+            ]);
+        }
+        return $response;
     }
 }

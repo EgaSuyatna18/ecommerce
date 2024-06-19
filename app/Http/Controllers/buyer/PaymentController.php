@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Payment;
 use App\Models\PaymentDetail;
+use App\Models\Product;
 use Illuminate\Support\Facades\Http;
 use App\Rules\alpha_space;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -18,6 +20,17 @@ class PaymentController extends Controller
         $carts = Cart::where('user_id', auth()->user()->id)->get();
 
         if(!count($carts)) return redirect('/')->withErrors("You Doesn't Have Any Cart!");
+
+        DB::beginTransaction();
+        foreach($carts as $cart) {
+                $product = Product::where('id', $cart->product_id)->first();
+                if($product->stock < $cart->qty) {
+                    DB::rollback();
+                    return redirect('/')->withErrors(['error' => 'Something unknown happen to your order.']);
+                }
+                $product->decrement('stock', $cart->qty);
+        }
+        DB::commit();
 
         Payment::create([
             'id' => $payment_id,

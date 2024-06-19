@@ -26,7 +26,6 @@
     </div>
     <!-- Page Header End -->
 
-
     <!-- Cart Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
@@ -59,7 +58,7 @@
                                         <i class="fa fa-minus"></i>
                                         </button>
                                     </div>
-                                    <input type="number" min="1" onchange="editCart(this.value, {{ $cart->id }})" class="form-control form-control-sm bg-secondary text-center" value="{{ $cart->qty }}">
+                                    <input type="number" min="1" onchange="editCart(this, {{ $cart->id }})" class="form-control form-control-sm bg-secondary text-center" value="{{ $cart->qty }}">
                                     <div class="input-group-btn">
                                         <button class="btn btn-sm btn-primary btn-plus" data-id={{ $cart->id }}>
                                             <i class="fa fa-plus"></i>
@@ -104,7 +103,7 @@
 
     <script>
         function editCart(input, cart_id) {
-            fetch('/cart/'+cart_id+'/' + input, {
+            fetch('/cart/'+cart_id+'/' + input[0].value, {
                 method: 'put',
                 headers: {
                     'Content-Type': 'application/json',
@@ -118,11 +117,9 @@
                 return response.json(); // menguraikan respons menjadi objek JavaScript
             })
             .then(data => {
-                // data yang diterima dari server
-                console.log(data);
+                if(data.status == 400) input[0].value = data.max;
             })
             .catch(error => {
-                // menangani kesalahan
                 console.error('There was a problem with your fetch operation:', error);
             });
             }

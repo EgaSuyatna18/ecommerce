@@ -22,6 +22,7 @@ class ProductFactory extends Factory
             'product_name' => 'product ' . rand(10000, 99999),
             'weight' => 10,
             'price' => 10000,
+            'stock' => rand(1, 10),
             'description' => 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate, minus.'
         ];
     }
